@@ -12,15 +12,15 @@ exports.createJsonData = function(name, domain) {
     }
 };
 
-exports.scrapeData = function($, menu, dailyElement, dateLocation, lunchlist, location) {
+exports.scrapeData = function($, menu, selectors, location) {
 
-    // Iterate over DIRECT <li> children, every <li> element contains data for one day
-    for (var i = selectors.range[0]; i < selectors.range[1]; i++) {
+    // Iterate over elements containing data for a specific day
+    for (var i = 0; i < 5; i++) {
 
-        let dailyScrapedData = menu.find(dailyElement).eq(i);
+        let dailyScrapedData = menu.find(selectors.dailyElement).eq(i);
 
         // Find the class .day in element and save its text in var scrapedDate
-        let date = dailyScrapedData.find(dateLocation).text();
+        let date = dailyScrapedData.find(selectors.date).text();
 
         // // format date to YYYY-MM-DD using moment
         // const dateMonth = scrapedDdate.split(' ')[2];
@@ -32,7 +32,7 @@ exports.scrapeData = function($, menu, dailyElement, dateLocation, lunchlist, lo
         let dailyLunchlist = [];            
 
         // Find the appropriate element and save its text in array dailyLunchlist
-        dailyScrapedData.find(lunchlist).each((i, el) => {
+        dailyScrapedData.find(selectors.lunchlist).each((i, el) => {
             let scrapedMalica = $(el).children().text();
             let malica = grammar.correctGrammar(scrapedMalica);
             dailyLunchlist[i] = malica;
@@ -60,6 +60,6 @@ exports.writeToFile = function(filename, jsonData) {
     });
 };
 
-exports.scrape =  function(){
+exports.notify =  function(){
     return "Scrape that shit";
 };
