@@ -3,9 +3,22 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const moment = require('moment');
 const filename = "./cubis.json";
+const generic = require('./generic');
+
+
+const url = 'https://www.restavracija-cubis.si/malice';
+const name = 'Cubis'; //katerikoliFile.name
+const domain = 'restavracija-cubis.si'; // nek markdownFile.domain
+const selectors = {
+    menu: 'div.jt_row.jt_row-fluid.row',
+    dailyElement: ' > li',
+    date: '.day',
+    lunchlist: '.mealName > span',
+    range: [1, 6]
+}
 
 // Make a request, save the html response (DOM) to cheerio
-request('https://www.restavracija-cubis.si/malice', 
+request(url, 
 (error, response, html) => {
 
     if (error || response.statusCode != 200) {
@@ -13,34 +26,29 @@ request('https://www.restavracija-cubis.si/malice',
     } else {
 
         const $ = cheerio.load(html);
-        const menu = $('div.jt_row.jt_row-fluid.row');
+        const menu = $(selectors.menu);
 
         // Initialize a new object to write to JSON file.
         var jsonData = {
-            name: "Cubis",
-            domain: "restavracija-cubis.si",
+            name: name,
+            domain: domain,
             data: [
 
             ]
         }
 
-        // Alternative version
-        // Iterate over each direct child except first one and last two ones.
-        // Menu.not(':first').not(':last').prev().not(':last').each((i, el) => {};
-        // End of alternative version
-
         // Iterate over all the DIRECT children except the first and last two (2-6)
         for (var i = 1; i < 6; i++) {
 
+            // bit more: let dailyScrapedData = menu.find(dailyElement).eq(i);, sam ta i more bit tuki od 1-6 names 0-5
             let dailyScrapedData = menu.children().eq(i);
 
             // Find the class .day in element and save its text in var scrapedDate
-            let scrapedDdate = dailyScrapedData.find('.day').text();
+            let scrapedDdate = dailyScrapedData.find(selectors.date).text();
 
             // format date to YYYY-MM-DD using moment
             const dateMonth = scrapedDdate.split(' ')[2];
             const currentYear = moment().year();
-            
             const lunchMomentDate = moment(`${dateMonth}${currentYear}`, `DD.MM.YYYY`);
             const date = lunchMomentDate._d.toISOString();
             
@@ -48,7 +56,7 @@ request('https://www.restavracija-cubis.si/malice',
             let dailyLunchlist = [];            
 
             // Find the appropriate element and save its text in array dailyLunchlist
-            dailyScrapedData.find('.mealName > span').each((i, el) => {
+            dailyScrapedData.find(selectors.lunchlist).each((i, el) => {
                 let malica = $(el).text();
                 dailyLunchlist[i] = malica;
             });
@@ -71,5 +79,7 @@ request('https://www.restavracija-cubis.si/malice',
                 console.log("Writing to file:" + filename)
             }
         });
+
+        console.log(generic.scrape());
     }
 });
