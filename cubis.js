@@ -2,11 +2,12 @@ const request = require('request');
 const cheerio = require('cheerio'); 
 const filename = "./cubis.json";
 const generic = require('./generic');
+const moment = require('moment');
 
 
 const url = 'https://www.restavracija-cubis.si/malice';
-const name = 'Cubis'; //katerikoliFile.name
-const domain = 'restavracija-cubis.si'; // nek markdownFile.domain
+const name = 'Cubis';
+const domain = 'restavracija-cubis.si';
 const selectors = {
     menu: 'div.jt_row.jt_row-fluid.row',
     dailyElement: 'div.meals',

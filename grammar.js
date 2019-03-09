@@ -3,5 +3,7 @@ exports.correctGrammar =  function(string){
     let correctedCase = allLower.charAt(0).toUpperCase() + allLower.slice(1);
     let commaMatch =/(,|\))([A-Za-z0-9]+)/g
     let commaSpaces = correctedCase.replace(commaMatch, "$1 $2");
-    return commaSpaces;
+    let doubleSpacesMatch = /  /
+    let grammarOK = commaSpaces.replace(doubleSpacesMatch, " ");
+    return grammarOK;
 }

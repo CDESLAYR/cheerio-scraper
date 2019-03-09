@@ -4,7 +4,9 @@
   "description": "A web scraper using cheerio, project for 3FS",
   "main": "scraper.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scrape": "node creina.js cubis.js mlecna.js arvaj.js",
+    "clean": "DEL creina.json cubis.json mlecna.json arvaj.json"
   },
   "author": "Cdeslayr",
   "license": "ISC",

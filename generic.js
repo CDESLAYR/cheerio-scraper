@@ -1,5 +1,6 @@
 const fs = require('fs');
 const grammar = require('./grammar');
+const moment = require('moment');
 
 // Initialize a new JSON object to write it to file
 exports.createJsonData = function(name, domain) {
@@ -20,13 +21,16 @@ exports.scrapeData = function($, menu, selectors, location) {
         let dailyScrapedData = menu.find(selectors.dailyElement).eq(i);
 
         // Find the class .day in element and save its text in var scrapedDate
-        let date = dailyScrapedData.find(selectors.date).text();
 
-        // // format date to YYYY-MM-DD using moment
-        // const dateMonth = scrapedDdate.split(' ')[2];
-        // const currentYear = moment().year();
-        // const lunchMomentDate = moment(`${dateMonth}${currentYear}`, `DD.MM.YYYY`);
-        // const date = lunchMomentDate._d.toISOString();
+        let scrapedDate = dailyScrapedData.find(selectors.date).text();
+
+        let grammarDate = grammar.correctGrammar(scrapedDate);
+
+        // format date to YYYY-MM-DD using moment
+        const dateMonth = grammarDate.split(' ')[1];
+        const currentYear = moment().year();
+        const lunchMomentDate = moment(`${dateMonth}${currentYear}`, `DD.MM.YYYY`);
+        const date = lunchMomentDate._d.toISOString();
         
         // Array of lunches available for the day
         let dailyLunchlist = [];            
