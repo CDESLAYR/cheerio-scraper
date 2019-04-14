@@ -83,21 +83,25 @@ request(url,
                         });
                 });
                 
+                // gets run in every iteration
                 promiseDailyData.then(function(result) {
                 
                     // Push that object to main JSON object jsonData
                     jsonData.data.push(result);
                 
+                    // Move to another day (i++)
+                    requestCount++;
+
                     // Write the JSON object to a file
                     generic.writeToFile(filename, jsonData);
-                
-                    //move to another day (i++)
-                    requestCount++;
-                
+
                   }, function(err) {
                     console.log(err); // Error: "It broke"
                   });
-            } 
+            }
+
+
+
             console.log(generic.notify());
     };
 });

@@ -24,13 +24,13 @@ exports.scrapeData = function($, menu, selectors, location) {
 
         let scrapedDate = dailyScrapedData.find(selectors.date).text();
 
-        let grammarDate = grammar.correctGrammar(scrapedDate);
+        let date = grammar.correctGrammar(scrapedDate);
 
-        // format date to YYYY-MM-DD using moment
-        const dateMonth = grammarDate.split(' ')[1];
-        const currentYear = moment().year();
-        const lunchMomentDate = moment(`${dateMonth}${currentYear}`, `DD.MM.YYYY`);
-        const date = lunchMomentDate._d.toISOString();
+        // // format date to YYYY-MM-DD using moment
+        // const dateMonth = grammarDate.split(' ')[1];
+        // const currentYear = moment().year();
+        // const lunchMomentDate = moment(`${dateMonth}${currentYear}`, `DD.MM.YYYY`);
+        // const date = lunchMomentDate._d.toISOString();
         
         // Array of lunches available for the day
         let dailyLunchlist = [];            

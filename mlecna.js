@@ -6,8 +6,8 @@ const grammar = require('./grammar.js');
 const moment = require('moment');
 
 const url = 'https://www.mlecna-restavracija.si/malice/dnevne-malice/';
-const name = "Mlecna"; //katerikoliFile.name
-const domain = "mlecna-restavracija.si"; // nek markdownFile.domain
+const name = "Mlecna";
+const domain = "mlecna-restavracija.si";
 const selectors = {
     menu: 'div.text',
     dailyElement: ' > li',
@@ -33,13 +33,13 @@ request(url,
             // Iterate over elements containing data for a specific day
             for (var i = 0; i < 5; i++) {
         
-                let scrapedDate = menu.find(selectors.date).eq(i).text();
+                let date = menu.find(selectors.date).eq(i).text();
         
-                // format date to YYYY-MM-DD using moment
-                const dateMonth = scrapedDate.split(' ')[1];
-                const currentYear = moment().year();
-                const lunchMomentDate = moment(`${dateMonth}${currentYear}`, `DD.MM.YYYY`);
-                const date = lunchMomentDate._d.toISOString();
+                // // format date to YYYY-MM-DD using moment
+                // const dateMonth = scrapedDate.split(' ')[1];
+                // const currentYear = moment().year();
+                // const lunchMomentDate = moment(`${dateMonth}${currentYear}`, `DD.MM.YYYY`);
+                // const date = lunchMomentDate._d.toISOString();
                 
                 // Array of lunches available for the day
                 let dailyLunchlist = [];            

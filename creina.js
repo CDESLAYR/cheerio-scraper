@@ -4,8 +4,8 @@ const filename = "./creina.json";
 const generic = require('./generic');
 
 const url = 'https://hotelcreina.si/restavracija/dnevna-kosila/';
-const name = "Creina"; //katerikoliFile.name
-const domain = "hotelcreina.si"; // nek markdownFile.domain
+const name = "Creina";
+const domain = "hotelcreina.si";
 const selectors = {
     menu: '#weekly-menu',
     dailyElement: ' > li',
